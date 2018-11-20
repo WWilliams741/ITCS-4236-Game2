@@ -10,6 +10,7 @@ public class AIMovement : MonoBehaviour
     ///     May need radius of satisfaction for rotational movement to stop snake movement
     /// </summary>
     [SerializeField]
+    [Range(0,4)]
     private int waypointChildInt;
     [SerializeField]
     private float motorForce, steerForce, brakeForce, radiusOfSat;
