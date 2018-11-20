@@ -201,6 +201,7 @@ public class AIMovement : MonoBehaviour
             //print(currentSpeed);
             //print(localVel.z);
             //print("DotLR: " + rotDirLR + " DotFB: " + rotDirFB);
+            //print(rotDirLR);
 
             //draw a debug line to see target position
             Debug.DrawLine(targetPos + new Vector3(0f, 50f, 0f), targetPos, Color.blue);
@@ -299,8 +300,8 @@ public class AIMovement : MonoBehaviour
             {
                 //(Vector3.Distance(targetPos, transform.position) [5 is to increase hpw fast the car accelerates]/ (currentSpeed + 1)) -
                 //- makes the amount the car speeds up be based on how far the car is from the target devided by the current speed of the car
-                brWheel.motorTorque = acceleration * turnMultiplier * ((Vector3.Distance(targetPos, transform.position) + 5) / (currentSpeed + 1));
-                blWheel.motorTorque = acceleration * turnMultiplier * ((Vector3.Distance(targetPos, transform.position) + 5) / (currentSpeed + 1));
+                brWheel.motorTorque = acceleration * turnMultiplier * ((Vector3.Distance(targetPos, transform.position) /*+ 5*/) / (currentSpeed + 1));
+                blWheel.motorTorque = acceleration * turnMultiplier * ((Vector3.Distance(targetPos, transform.position) /*+ 5*/) / (currentSpeed + 1));
             }
             else
             {
@@ -313,7 +314,7 @@ public class AIMovement : MonoBehaviour
             //apply brakes
             #region
             //if within the radius of satisfaction of the target position OR target is behind and local velocity is forward OR taget is in front and local velocity is backwards OR need to turn and going faster than certain speed
-            if (Vector3.Distance(targetPos, transform.position) < radiusOfSat || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.2f && localVel.z > 15f))
+            if (Vector3.Distance(targetPos, transform.position) < radiusOfSat || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.3f && localVel.z > (topSpeed * 0.66f)))
             {
                 //car's natural deceleration
                 //rb.velocity *= 0.997f;
