@@ -52,9 +52,11 @@ public class AIMovement : MonoBehaviour
     {
         //create the waypointIndex array to hold to randomly selected waypoints along the track
         waypointIndex = new int[Waypoint_Cache.waypoints.Count];
-        print(Waypoint_Cache.waypoints.Count);
-        print(Waypoint_Cache.waypoints[0].transform.position.x);
-        print(Waypoint_Cache.waypoints[Waypoint_Cache.waypoints.Count-1].transform.position.x);
+
+        //print(Waypoint_Cache.waypoints.Count);
+        //print(Waypoint_Cache.waypoints[0].transform.position.x);
+        //print(Waypoint_Cache.waypoints[Waypoint_Cache.waypoints.Count-1].transform.position.x);
+
         //randomly assign the selected waypoints at each area
         for (int i = 0; i < Waypoint_Cache.waypoints.Count; i++)
         {
@@ -100,7 +102,7 @@ public class AIMovement : MonoBehaviour
             }
         }
 
-        GameManager.raceIsStarting = false;
+        //GameManager.raceIsStarting = false;
     }
 
     void CalculatePathTestFunction()
@@ -314,7 +316,8 @@ public class AIMovement : MonoBehaviour
             if (Vector3.Distance(targetPos, transform.position) < radiusOfSat || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.2f && localVel.z > 15f))
             {
                 //car's natural deceleration
-                rb.velocity *= 0.997f;
+                //rb.velocity *= 0.997f;
+                rb.velocity *= 0.998f;
                 //apply actual brakes to wheel colliders for added deceleration
                 brWheel.brakeTorque = brakeForce;
                 blWheel.brakeTorque = brakeForce;

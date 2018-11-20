@@ -27,100 +27,106 @@ public class RollMovement : MonoBehaviour
 
     void Update()
     {
-        //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
-        inputVector = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        if (!GameManager.raceIsStarting)
+        {
+            //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
+            inputVector = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-        //store local velocity
-        localVel = transform.InverseTransformDirection(rb.velocity);
+            //store local velocity
+            localVel = transform.InverseTransformDirection(rb.velocity);
 
-        //create/update steering values
-        float steerRotation = inputVector.x * steerForce;
+            //create/update steering values
+            float steerRotation = inputVector.x * steerForce;
 
-        //store speed
-        currentSpeed = rb.velocity.magnitude;
+            //store speed
+            currentSpeed = rb.velocity.magnitude;
 
-        //create desired steer rotation
-        steerRotation *= 3 / (currentSpeed + 3);
+            //create desired steer rotation
+            steerRotation *= 3 / (currentSpeed + 3);
 
-        //lerp wheel rotation so wheels don't just instantly assign to new direction
-        float steerAngleFR = Mathf.LerpAngle(frWheel.steerAngle, steerRotation, steerSpeed * Time.deltaTime);
-        float steerAngleFL = Mathf.LerpAngle(flWheel.steerAngle, steerRotation, steerSpeed * Time.deltaTime);
+            //lerp wheel rotation so wheels don't just instantly assign to new direction
+            float steerAngleFR = Mathf.LerpAngle(frWheel.steerAngle, steerRotation, steerSpeed * Time.deltaTime);
+            float steerAngleFL = Mathf.LerpAngle(flWheel.steerAngle, steerRotation, steerSpeed * Time.deltaTime);
 
-        //apply steering (of the lerping rotation)
-        frWheel.steerAngle = steerAngleFR;
-        flWheel.steerAngle = steerAngleFL;
+            //apply steering (of the lerping rotation)
+            frWheel.steerAngle = steerAngleFR;
+            flWheel.steerAngle = steerAngleFL;
 
-        //apply rotation to all visual wheels (steering and rpm)
-        ApplyLocalPositionToVisuals(frWheel);
-        ApplyLocalPositionToVisuals(flWheel);
-        ApplyLocalPositionToVisuals(brWheel);
-        ApplyLocalPositionToVisuals(blWheel);
+            //apply rotation to all visual wheels (steering and rpm)
+            ApplyLocalPositionToVisuals(frWheel);
+            ApplyLocalPositionToVisuals(flWheel);
+            ApplyLocalPositionToVisuals(brWheel);
+            ApplyLocalPositionToVisuals(blWheel);
 
-        //display player speed in console
-        //print(currentSpeed);
-        //print(localVel.z);
+            //display player speed in console
+            //print(currentSpeed);
+            //print(localVel.z);
+        }
     }
 
     void FixedUpdate()
     {
-        //create acceleration values
-        float acceleration;
+        if (!GameManager.raceIsStarting)
+        {
+            //create acceleration values
+            float acceleration;
 
-        //update acceleration values
-        if (currentSpeed > (topSpeed * 0.60f))
-        {
-            //if car is currently going faster the 3/5 of top speed reduce the amount of motor force added
-            acceleration = inputVector.z * (motorForce * 0.5f);
-        }
-        else
-        {
-            //else car is going less than 3/5 of top speed allow full amount of motor force to be added
-            acceleration = inputVector.z * motorForce;//JUST THIS IF WANT TO REVERT TO PREVIOUS VERSION
-        }
+            //update acceleration values
+            if (currentSpeed > (topSpeed * 0.60f))
+            {
+                //if car is currently going faster the 3/5 of top speed reduce the amount of motor force added
+                acceleration = inputVector.z * (motorForce * 0.5f);
+            }
+            else
+            {
+                //else car is going less than 3/5 of top speed allow full amount of motor force to be added
+                acceleration = inputVector.z * motorForce;//JUST THIS IF WANT TO REVERT TO PREVIOUS VERSION
+            }
 
-        //apply acceleration
-        //if not at top speed and acceleration is being pressed
-        if (currentSpeed < topSpeed && Mathf.Abs(inputVector.z) > 0.1f)
-        {
-            brWheel.motorTorque = acceleration;
-            blWheel.motorTorque = acceleration;
-        }
-        else
-        {
-            //else acceleration is not being pressed, OR at top speed so slow acceleration to limit car to top speed
-            brWheel.motorTorque = 0;
-            blWheel.motorTorque = 0;
-        }
+            //apply acceleration
+            //if not at top speed and acceleration is being pressed
+            if (currentSpeed < topSpeed && Mathf.Abs(inputVector.z) > 0.1f)
+            {
+                brWheel.motorTorque = acceleration;
+                blWheel.motorTorque = acceleration;
+            }
+            else
+            {
+                //else acceleration is not being pressed, OR at top speed so slow acceleration to limit car to top speed
+                brWheel.motorTorque = 0;
+                blWheel.motorTorque = 0;
+            }
 
-        //apply brakes/deceleration
-        if (Input.GetKey(KeyCode.Space))
-        {
-            //car's natural deceleration
-            rb.velocity *= 0.997f;
-            //apply actual brakes to wheel colliders for added deceleration
-            brWheel.brakeTorque = brakeForce;
-            blWheel.brakeTorque = brakeForce;
-            frWheel.brakeTorque = brakeForce;
-            flWheel.brakeTorque = brakeForce;
-        }
-        else if(inputVector.z == 0)
-        {
-            //if not pressing acceleration
-            //car's natural deceleration only
-            rb.velocity *= 0.997f;
-            //no added brakes to wheel colliders
-            brWheel.brakeTorque = 0;
-            blWheel.brakeTorque = 0;
-            frWheel.brakeTorque = 0;
-            flWheel.brakeTorque = 0;
-        }
-        else
-        {
-            //else no brakes or deceleration
-            brWheel.brakeTorque = 0;
-            blWheel.brakeTorque = 0;
-            frWheel.brakeTorque = 0;
-            flWheel.brakeTorque = 0;
+            //apply brakes/deceleration
+            if (Input.GetKey(KeyCode.Space))
+            {
+                //car's natural deceleration
+                rb.velocity *= 0.997f;
+                //apply actual brakes to wheel colliders for added deceleration
+                brWheel.brakeTorque = brakeForce;
+                blWheel.brakeTorque = brakeForce;
+                frWheel.brakeTorque = brakeForce;
+                flWheel.brakeTorque = brakeForce;
+            }
+            else if (inputVector.z == 0)
+            {
+                //if not pressing acceleration
+                //car's natural deceleration only
+                rb.velocity *= 0.997f;
+                //no added brakes to wheel colliders
+                brWheel.brakeTorque = 0;
+                blWheel.brakeTorque = 0;
+                frWheel.brakeTorque = 0;
+                flWheel.brakeTorque = 0;
+            }
+            else
+            {
+                //else no brakes or deceleration
+                brWheel.brakeTorque = 0;
+                blWheel.brakeTorque = 0;
+                frWheel.brakeTorque = 0;
+                flWheel.brakeTorque = 0;
+            }
         }
     }
 

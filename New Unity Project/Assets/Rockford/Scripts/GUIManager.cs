@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class GUIManager : MonoBehaviour
 {
     [SerializeField]
-    private Text timerText, speedText;
-    private int seconds, minutes;
+    private Text timerText, speedText, countdownText;
+    private int seconds, minutes, countdown;
     [SerializeField]
     private RollMovement playerScript;
 
@@ -17,8 +17,28 @@ public class GUIManager : MonoBehaviour
         //initialize seconds and minutes to zero on start
         seconds = 0;
         minutes = 0;
+        countdown = 6;
 
         //start timer
+        //StartCoroutine(TimeTracker());
+        StartCoroutine(RaceStartCountdown());
+    }
+
+    //countdown to start of race
+    IEnumerator RaceStartCountdown()
+    {
+        bool countingDown = true;
+        while (countingDown)
+        {
+            yield return new WaitForSeconds(1);
+            countdown--;
+            if (countdown == 0)
+            {
+                countingDown = false;
+            }
+        }
+
+        GameManager.raceIsStarting = false;
         StartCoroutine(TimeTracker());
     }
 
@@ -37,7 +57,7 @@ public class GUIManager : MonoBehaviour
     void Update()
     {
         //if reached 60 seconds
-        if(seconds == 60)
+        if (seconds == 60)
         {
             //add a minute
             minutes += 1;
@@ -50,5 +70,26 @@ public class GUIManager : MonoBehaviour
 
         //display current speed
         speedText.text = "" + Mathf.Floor(playerScript.GetCurrentSpeed() * 1.5f) + "mph";
+
+        //display countdown text
+        if (countdown == 3)
+        {
+            countdownText.color = Color.red;
+            countdownText.text = "Ready!";
+        }
+        else if (countdown == 2)
+        {
+            countdownText.color = Color.yellow;
+            countdownText.text = "Set!";
+        }
+        else if (countdown == 1)
+        {
+            countdownText.color = Color.green;
+            countdownText.text = "Go!";
+        }
+        else
+        {
+            countdownText.text = "";
+        }
     }
 }
