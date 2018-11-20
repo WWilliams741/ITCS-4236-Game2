@@ -83,16 +83,16 @@
     <Compile Include="Assets\Walker\Scripts\emptyObjectFollow2.cs" />
     <Compile Include="Assets\Walker\Scripts\RollMovement2.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/Trying A-Star (And Failing) With Countdown Game/ITCS-4236-Game.3/New Unity Project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/GitHub Game Folder/ITCS-4236-Game2/New Unity Project/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/Trying A-Star (And Failing) With Countdown Game/ITCS-4236-Game.3/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/GitHub Game Folder/ITCS-4236-Game2/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/Trying A-Star (And Failing) With Countdown Game/ITCS-4236-Game.3/New Unity Project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/GitHub Game Folder/ITCS-4236-Game2/New Unity Project/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/Trying A-Star (And Failing) With Countdown Game/ITCS-4236-Game.3/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/GitHub Game Folder/ITCS-4236-Game2/New Unity Project/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Program Files (D)/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -275,7 +275,7 @@
       <HintPath>D:/Program Files (D)/Editor/Data/Managed/Unity.Locator.dll</HintPath>
     </Reference>
     <Reference Include="Facebook.Unity.Settings">
-      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/Trying A-Star (And Failing) With Countdown Game/ITCS-4236-Game.3/New Unity Project/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+      <HintPath>D:/darkn/School/UNCC/2018-19/AI in Computer Games/GitHub Game Folder/ITCS-4236-Game2/New Unity Project/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>D:/Program Files (D)/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
