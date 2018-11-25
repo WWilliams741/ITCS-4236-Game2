@@ -314,8 +314,11 @@ public class AIMovement : MonoBehaviour
 
             //apply brakes
             #region
-            //if within the radius of satisfaction of the target position OR target is behind and local velocity is forward OR taget is in front and local velocity is backwards OR need to turn and going faster than certain speed
-            if (Vector3.Distance(targetPos, transform.position) < radiusOfSat || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.3f && localVel.z > (topSpeed * 0.66f)))
+            //Original
+            //Vector3.Distance(targetPos, transform.position) < radiusOfSat || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.3f && localVel.z > (topSpeed * 0.66f))
+
+            //if within the radius of satisfaction * .5 of the target position OR target is behind and local velocity is forward OR taget is in front and local velocity is backwards OR need to turn and going faster than certain speed
+            if (Vector3.Distance(targetPos, transform.position) < (radiusOfSat * 0.5f) || (rotDirFB < 0 && localVel.z > 0) || (rotDirFB > 0 && localVel.z < 0) || (Mathf.Abs(rotDirLR) > 0.3f && localVel.z > (topSpeed * 0.7f)))
             {
                 //car's natural deceleration
                 //rb.velocity *= 0.997f;
@@ -335,6 +338,15 @@ public class AIMovement : MonoBehaviour
                 flWheel.brakeTorque = 0;
             }
             #endregion
+
+            /* (Maybe add somewhere)
+            RaycastHit hit;
+            int layerMask1 = 1 << 9;
+            int layerMask2 = 1 << 10;
+            Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
+            int layerMask3 = (layerMask1 | layerMask2);
+            Physics.Raycast(transform.position + (-transform.right * 1.8f), -transform.right, out hit, 5f, layerMask3);
+            */
         }
     }
 

@@ -15,25 +15,32 @@ public class TrackGenerator : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
+        //clear Cache at start of level
+        Waypoint_Cache.waypoints.Clear();
+        GameManager.raceIsStarting = true;
+
         //Loop for testing
         for(int i = 0; i < 10; i++)
         {
-            SpawnTrack();
+            SpawnTrack(i);
         }
         currentTrack = Instantiate(finishLine, GetGrandchildPosition(currentTrack), Quaternion.identity); //Attach the finish line piece to the end
     }
     
     //Picks a random piece of track to spawn at the end of the current track
-    void SpawnTrack()
+    void SpawnTrack(int trackNum)
     {
         int rand = Random.Range(0, tracks.Length);
 
         currentTrack = Instantiate(tracks[rand], GetGrandchildPosition(currentTrack), Quaternion.identity);
         currentWaypoint = Instantiate(wayPoints, GetGrandchildPosition(currentTrack), Quaternion.identity);
 
-        Waypoint_Cache.waypoints.Add(waypoint_int, currentWaypoint);
-        waypoint_int++;
-        //print(Waypoint_Cache.waypoints.Count);
+        if (trackNum == 4 || trackNum == 9)
+        {
+            Waypoint_Cache.waypoints.Add(waypoint_int, currentWaypoint);
+            waypoint_int++;
+            //print(Waypoint_Cache.waypoints.Count);
+        }
     }
 
     //Gets the position of a child's child to clean the code up a little

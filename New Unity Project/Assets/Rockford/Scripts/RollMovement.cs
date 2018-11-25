@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RollMovement : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class RollMovement : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -156,5 +157,13 @@ public class RollMovement : MonoBehaviour
         //assign those values from the wheel collider to the visual wheels
         visualWheel.transform.position = position;
         visualWheel.transform.rotation = rotation;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "FinishLine")
+        {
+            SceneManager.LoadScene("Credits");
+        }
     }
 }
