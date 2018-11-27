@@ -60,10 +60,10 @@ public class AStarSearch : MonoBehaviour {
             }
         }
 
-        int startRow = Mathf.RoundToInt(Mathf.RoundToInt(startVecZ / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
-        int startCol = Mathf.RoundToInt(Mathf.RoundToInt(startVecX / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
-        int goalRow = Mathf.RoundToInt(Mathf.RoundToInt(goalVecZ / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
-        int goalCol = Mathf.RoundToInt(Mathf.RoundToInt(goalVecX / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
+        int startRow = Mathf.FloorToInt(Mathf.CeilToInt(startVecZ / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
+        int startCol = Mathf.FloorToInt(Mathf.CeilToInt(startVecX / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
+        int goalRow = Mathf.FloorToInt(Mathf.CeilToInt(goalVecZ / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
+        int goalCol = Mathf.FloorToInt(Mathf.CeilToInt(goalVecX / worldDecomp.GetNodeSize()) * worldDecomp.GetNodeSize()) / 2;
 
         //assign null to allow enterance to while loop
         Node currentSpace = null;

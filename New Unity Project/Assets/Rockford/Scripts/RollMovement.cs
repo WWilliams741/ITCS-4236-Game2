@@ -163,7 +163,7 @@ public class RollMovement : MonoBehaviour
     {
         if (other.tag == "FinishLine")
         {
-            SceneManager.LoadScene("Credits");
+            SceneManager.LoadScene("MainMenu(RockWork)");
         }
     }
 }

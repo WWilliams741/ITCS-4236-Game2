@@ -115,8 +115,8 @@ public class AIMovement : MonoBehaviour
     {
         if (!GameManager.raceIsStarting)
         {
-            //if there is another node postion in the stack and car is within the radius of satisfaction, pop the next node off and set as next target
-            if (fullPath.Count > 0 && Vector3.Distance(transform.position, targetPos) < radiusOfSat)
+            //if there is another node postion in the stack and (car is within the radius of satisfaction OR target waypoint is backwards on the track), pop the next node off and set as next target
+            if (fullPath.Count > 0 && (Vector3.Distance(transform.position, targetPos) < radiusOfSat || targetPos.x - transform.position.x <= 0))
             {
                 nextTarget = fullPath[0];
                 fullPath.RemoveAt(0);
