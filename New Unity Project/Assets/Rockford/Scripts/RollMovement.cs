@@ -23,11 +23,15 @@ public class RollMovement : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SceneManager.LoadScene("EndScreen");
+        }
         if (!GameManager.raceIsStarting)
         {
             //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
@@ -163,7 +167,7 @@ public class RollMovement : MonoBehaviour
     {
         if (other.tag == "FinishLine")
         {
-            SceneManager.LoadScene("MainMenu(RockWork)");
+            SceneManager.LoadScene("EndScreen");
         }
     }
 }

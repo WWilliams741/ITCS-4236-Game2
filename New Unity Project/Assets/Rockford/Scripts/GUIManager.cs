@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GUIManager : MonoBehaviour
 {
     [SerializeField]
     private Text timerText, speedText, countdownText;
-    private int seconds, minutes, countdown;
+    private static int seconds, minutes, countdown;
     [SerializeField]
     private RollMovement playerScript;
 
@@ -15,13 +16,15 @@ public class GUIManager : MonoBehaviour
     void Start()
     {
         //initialize seconds and minutes to zero on start
-        seconds = 0;
-        minutes = 0;
-        countdown = 6;
-
-        //start timer
-        //StartCoroutine(TimeTracker());
-        StartCoroutine(RaceStartCountdown());
+        if(SceneManager.GetActiveScene().name == "MichaelLevel(RockWork)")
+        {
+            seconds = 0;
+            minutes = 0;
+            countdown = 6;
+            //start timer
+            //StartCoroutine(TimeTracker());
+            StartCoroutine(RaceStartCountdown());
+        }
     }
 
     //countdown to start of race
@@ -56,6 +59,11 @@ public class GUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(SceneManager.GetActiveScene().name == "EndScreen")
+        {
+            minutes += 0;
+            seconds += 0;
+        }
         //if reached 60 seconds
         if (seconds == 60)
         {
