@@ -15,16 +15,12 @@ public class GUIManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //initialize seconds and minutes to zero on start
-        if(SceneManager.GetActiveScene().name == "MichaelLevel(RockWork)")
-        {
-            seconds = 0;
-            minutes = 0;
-            countdown = 6;
-            //start timer
-            //StartCoroutine(TimeTracker());
-            StartCoroutine(RaceStartCountdown());
-        }
+        seconds = 0;
+        minutes = 0;
+        countdown = 6;
+        //start timer
+        //StartCoroutine(TimeTracker());
+        StartCoroutine(RaceStartCountdown());
     }
 
     //countdown to start of race
@@ -59,11 +55,6 @@ public class GUIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == "EndScreen")
-        {
-            minutes += 0;
-            seconds += 0;
-        }
         //if reached 60 seconds
         if (seconds == 60)
         {
@@ -74,7 +65,7 @@ public class GUIManager : MonoBehaviour
         }
 
         //display the timer
-        timerText.text = "Time: " + minutes + ":" + seconds.ToString("00"); ;
+        timerText.text = "Time: " + minutes + ":" + seconds.ToString("00");
 
         //display current speed
         speedText.text = "" + Mathf.Floor(playerScript.GetCurrentSpeed() * 1.5f) + "mph";
@@ -98,6 +89,15 @@ public class GUIManager : MonoBehaviour
         else
         {
             countdownText.text = "";
+        }
+
+        //when player hits the finish line
+        if(GameManager.raceFinished)
+        {
+            //set the global time variables to the correct time and then load the end screen
+            GameManager.timeMin = minutes;
+            GameManager.timeSec = seconds;
+            SceneManager.LoadScene("EndScreen");
         }
     }
 }

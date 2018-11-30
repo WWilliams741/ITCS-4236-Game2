@@ -23,15 +23,20 @@ public class RollMovement : MonoBehaviour
 
     void Start()
     {
-        
+        GameManager.raceIsStarting = true;
+        GameManager.raceFinished = false;
     }
 
     void Update()
     {
+        //if you want to skip to the end screen (press T)
         if (Input.GetKeyDown(KeyCode.T))
         {
-            SceneManager.LoadScene("EndScreen");
+            //set the race to finished (which causes the GUIManager script to store time values and then load the end screen)
+            GameManager.raceFinished = true;
+            //SceneManager.LoadScene("EndScreen");
         }
+
         if (!GameManager.raceIsStarting)
         {
             //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
@@ -165,9 +170,12 @@ public class RollMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //when player hits the finish line
         if (other.tag == "FinishLine")
         {
-            SceneManager.LoadScene("EndScreen");
+            //set the race to finished (which causes the GUIManager script to store time values and then load the end screen)
+            GameManager.raceFinished = true;
+            //SceneManager.LoadScene("EndScreen");
         }
     }
 }
