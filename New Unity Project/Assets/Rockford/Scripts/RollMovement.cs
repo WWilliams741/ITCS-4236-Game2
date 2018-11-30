@@ -20,11 +20,24 @@ public class RollMovement : MonoBehaviour
     private Rigidbody rb;
     private Vector3 localVel;
     private Vector3 inputVector;
+    [SerializeField]
+    private AudioSource runningEngineAudio, idleEngineAudio;
+    [SerializeField]
+    private AudioClip runningEngineClip, idleEngineClip;
 
     void Start()
     {
         GameManager.raceIsStarting = true;
         GameManager.raceFinished = false;
+
+        //set all engine audio source settings
+        runningEngineAudio.clip = runningEngineClip;
+        runningEngineAudio.pitch = 1f;
+        runningEngineAudio.volume = 0f;
+        idleEngineAudio.clip = idleEngineClip;
+        idleEngineAudio.pitch = 1.25f;
+        idleEngineAudio.volume = 0.5f;
+        idleEngineAudio.Play();
     }
 
     void Update()
@@ -39,6 +52,37 @@ public class RollMovement : MonoBehaviour
 
         if (!GameManager.raceIsStarting)
         {
+            //adjust the engine sound pitch with speed
+            runningEngineAudio.pitch = 1 + (currentSpeed / topSpeed) / 2;
+
+            //if the player is accelerating
+            if (Mathf.Abs(inputVector.z) > 0.1f)
+            {
+                //adjust audio sources to trasition from idle to running
+                if(runningEngineAudio.volume < 0.5f)
+                {
+                    runningEngineAudio.volume += 0.2f * Time.deltaTime;
+                }
+
+                if (idleEngineAudio.volume > 0f)
+                {
+                    idleEngineAudio.volume -= 0.4f * Time.deltaTime;
+                }
+            }
+            else
+            {
+                //adjust audio sources to trasition from running to idle
+                if (idleEngineAudio.volume < 0.5f)
+                {
+                    idleEngineAudio.volume += 0.1f * Time.deltaTime;
+                }
+
+                if (runningEngineAudio.volume > 0f)
+                {
+                    runningEngineAudio.volume -= 0.15f * Time.deltaTime;
+                }
+            }
+
             //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
             inputVector = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 

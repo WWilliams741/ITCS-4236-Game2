@@ -30,6 +30,11 @@ public class AIMovement : MonoBehaviour
     private Stack<Node> bestPath = new Stack<Node>();
     private List<Node> fullPath = new List<Node>();
 
+    [SerializeField]
+    private AudioSource engineAudio;
+    [SerializeField]
+    private AudioClip runningEngineClip, idleEngineClip;
+
     //a* script
     [SerializeField]
     private AStarSearch aStar;
@@ -47,6 +52,12 @@ public class AIMovement : MonoBehaviour
         //----------For testing pathfinding and pathfollowing
         Invoke("CalculatePathTestFunction", 2f);
         //----------
+
+        //set all engine audio source settings
+        engineAudio.clip = idleEngineClip;
+        engineAudio.pitch = 1f;
+        engineAudio.volume = 1f;
+        engineAudio.Play();
     }
 
     void PathCreation()
@@ -115,6 +126,20 @@ public class AIMovement : MonoBehaviour
     {
         if (!GameManager.raceIsStarting)
         {
+            //the ai never stop accelerating, so just set the clip to runningEngineClip
+            if (engineAudio.clip != runningEngineClip)
+            {
+                engineAudio.clip = runningEngineClip;
+            }
+
+            if (engineAudio.isPlaying == false)
+            {
+                engineAudio.Play();
+            }
+
+            //adjust engine pitch with speed of car
+            engineAudio.pitch = 1 + (currentSpeed / topSpeed) / 2;
+
             //if there is another node postion in the stack and (car is within the radius of satisfaction OR target waypoint is backwards on the track), pop the next node off and set as next target
             if (fullPath.Count > 0 && (Vector3.Distance(transform.position, targetPos) < radiusOfSat || targetPos.x - transform.position.x <= 0))
             {

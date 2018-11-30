@@ -8,6 +8,8 @@ public class GUIManager : MonoBehaviour
 {
     [SerializeField]
     private Text timerText, speedText, countdownText;
+    [SerializeField]
+    private AudioSource gunShotAudioSource;
     private static int seconds, minutes, countdown;
     [SerializeField]
     private RollMovement playerScript;
@@ -44,6 +46,9 @@ public class GUIManager : MonoBehaviour
     //time tracker coroutine
     IEnumerator TimeTracker()
     {
+        //play the gun shot sound to start race
+        gunShotAudioSource.Play();
+
         //continue to add a second every second
         while (true)
         {
