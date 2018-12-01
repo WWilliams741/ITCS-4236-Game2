@@ -45,4 +45,9 @@ public class Menu : MonoBehaviour
         controlsUI.SetActive(false);
         creditsUI.SetActive(true);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }

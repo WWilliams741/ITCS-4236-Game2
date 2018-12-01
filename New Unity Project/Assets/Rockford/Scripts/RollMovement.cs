@@ -16,6 +16,7 @@ public class RollMovement : MonoBehaviour
     private WheelCollider frWheel, flWheel, brWheel, blWheel;
     [SerializeField]
     private float topSpeed, currentSpeed, steerSpeed;
+    private float trueTopSpeed;
     [SerializeField]
     private Rigidbody rb;
     private Vector3 localVel;
@@ -29,6 +30,7 @@ public class RollMovement : MonoBehaviour
     {
         GameManager.raceIsStarting = true;
         GameManager.raceFinished = false;
+        trueTopSpeed = topSpeed;
 
         //set all engine audio source settings
         runningEngineAudio.clip = runningEngineClip;
@@ -50,10 +52,38 @@ public class RollMovement : MonoBehaviour
             //SceneManager.LoadScene("EndScreen");
         }
 
+        //if escape is pressed
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            //return to main menu
+            SceneManager.LoadScene("MainMenu(RockWork)");
+        }
+
         if (!GameManager.raceIsStarting)
         {
+            //offroad code
+            #region
+            //get layer mask for track objects
+            int trackLayerMask = 1 << 8;
+
+            //if raycast from the center of the player's car straight down hits a track, then the player is on the track and can move at full speed
+            if(Physics.Raycast(transform.position, Vector3.down, 5f, trackLayerMask))
+            {
+                Debug.DrawRay (transform.position, Vector3.down * 5f, Color.magenta);
+                //reset top speed to the true top speed
+                topSpeed = trueTopSpeed;
+            }
+            else
+            {
+                //else the player is offroad and can only move at half speed
+                topSpeed = trueTopSpeed * 0.5f;
+            }
+            #endregion
+
+            //engine sound code
+            #region
             //adjust the engine sound pitch with speed
-            runningEngineAudio.pitch = 1 + (currentSpeed / topSpeed) / 2;
+            runningEngineAudio.pitch = 1 + (currentSpeed / trueTopSpeed) / 2;
 
             //if the player is accelerating
             if (Mathf.Abs(inputVector.z) > 0.1f)
@@ -82,6 +112,7 @@ public class RollMovement : MonoBehaviour
                     runningEngineAudio.volume -= 0.15f * Time.deltaTime;
                 }
             }
+            #endregion
 
             //For AI, inputVector should be target location - current location instead of Horizontal and Vertical Axis
             inputVector = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
@@ -162,9 +193,9 @@ public class RollMovement : MonoBehaviour
                 frWheel.brakeTorque = brakeForce;
                 flWheel.brakeTorque = brakeForce;
             }
-            else if (inputVector.z == 0)
+            else if (inputVector.z == 0 || currentSpeed > (topSpeed + 2))
             {
-                //if not pressing acceleration
+                //if not pressing acceleration OR traveling faster than the top speed
                 //car's natural deceleration only
                 rb.velocity *= 0.997f;
                 //no added brakes to wheel colliders
